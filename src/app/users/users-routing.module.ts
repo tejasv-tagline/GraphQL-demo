@@ -1,12 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PostsComponent } from './posts/posts.component';
+import { UserListComponent } from './user-list/user-list.component';
 
 const routes: Routes = [
+  
   {
-    path:'',
+    path: 'posts',
     component: PostsComponent
-  }
+  }, 
+  {
+    path: 'users',
+    component: UserListComponent
+  },
+  {
+    path: '**',
+    redirectTo: 'posts'
+  }, 
 ];
 
 @NgModule({

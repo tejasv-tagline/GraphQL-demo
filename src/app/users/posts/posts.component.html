@@ -1,8 +1,10 @@
 <div class="container mt-4">
-  <h3 class="text-center">GraphQL Demo </h3>
+  <h3 class="text-center">GraphQL Demo -- Posts </h3>
   <div class="d-flex justify-content-between">
+    <button class="btn btn-primary w-25 me-2" routerLink="/users"><i class="fa-solid fa-user text-white"></i>&nbsp;&nbsp;&nbsp;Switch to users</button>
+
     <input type="text" placeholder="Search by title.." class="form-control w-50" #searchKeyword>
-    <button class="btn btn-primary custom-button w-25" data-toggle="modal" data-target="#newPostModal"
+    <button class="btn btn-primary custom-button w-25 ms-2" data-toggle="modal" data-target="#newPostModal"
       (click)="show()"><i class="fa-solid fa-plus text-white"></i>&nbsp;&nbsp;&nbsp;New Post</button>
   </div>
 
