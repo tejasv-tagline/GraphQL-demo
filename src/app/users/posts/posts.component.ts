@@ -245,6 +245,5 @@ export class PostsComponent implements OnInit {
       console.log('Update post res :>> ', res);
       this.toster.success("Post updated");
     })
-    return;
   }
 }
