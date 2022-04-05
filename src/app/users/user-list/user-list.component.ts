@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 import { debounceTime, fromEvent } from 'rxjs';
-
+import * as $ from "jquery";
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
@@ -18,19 +18,16 @@ export class UserListComponent implements OnInit {
         name
         username
         email
-        phone
-        posts {
-          data {
-            id
-            title
-            body
-          }
+        company {
+          name
+          catchPhrase
+          bs
         }
       }
     }
   }
   `
-  public searchQuery=gql`
+  public searchQuery = gql`
   query Posts($options: PageQueryOptions) {
     users(options: $options) {
       data {
@@ -38,12 +35,18 @@ export class UserListComponent implements OnInit {
         name
         username
         email
+      company {
+        name
+        catchPhrase
+        bs
       }
+    }
     }
   }
   `
   public userList: any;
-  @ViewChild('searchKeyword') searchKeyword!:ElementRef;
+  @ViewChild('searchKeyword') searchKeyword!: ElementRef;
+  @ViewChild('companyHover') companyHover!: ElementRef;
 
 
 
@@ -54,25 +57,34 @@ export class UserListComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    fromEvent(this.searchKeyword.nativeElement,'keyup').pipe(debounceTime(200)).subscribe((res:any)=>{
-      if(res.target.value && res.target.value!==null){
+    fromEvent(this.searchKeyword.nativeElement, 'keyup').pipe(debounceTime(200)).subscribe((res: any) => {
+      if (res.target.value && res.target.value !== null) {
         this.apollo.watchQuery({
-          query:this.searchQuery,
-          variables:{
-              options: {
-                search: {
-                  q: res.target.value
-                }
+          query: this.searchQuery,
+          variables: {
+            options: {
+              search: {
+                q: res.target.value
               }
+            }
           }
 
-        }).valueChanges.subscribe((users:any)=>{
-          this.userList=users.data.users.data;
+        }).valueChanges.subscribe((users: any) => {
+          this.userList = users.data.users.data;
         })
-      }else{
+      } else {
         this.getAllUsers();
       }
     })
+
+    // setTimeout(() => {
+
+    //   this.companyHoverd();
+    // }, 1000);
+
+
+
+
   }
 
   public getAllUsers(): void {
@@ -81,6 +93,10 @@ export class UserListComponent implements OnInit {
     }).valueChanges.subscribe((users: any) => {
       this.userList = users?.data?.users.data;
     })
+  }
+
+  public companyHoverd(company: any): void {
+    (<any>$(".tool-tip")).attr('title-new', company.name + company.catchPhrase);
   }
 
 }

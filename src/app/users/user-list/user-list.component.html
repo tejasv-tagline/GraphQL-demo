@@ -3,7 +3,7 @@
     <div class="d-flex justify-content-between">
     <button class="btn btn-warning w-25 me-2" routerLink="/"><i class="fa-solid fa-user "></i>&nbsp;&nbsp;&nbsp;Switch to Posts</button>
 
-      <input type="text" placeholder="Search by Name, Username or Email.." class="form-control w-50" #searchKeyword>
+      <input type="text" placeholder="Search by Name, Username, Company or Email.." class="form-control w-50" #searchKeyword>
       <button class="btn btn-warning custom-button w-25 ms-2" data-toggle="modal" data-target="#newPostModal"
         ><i class="fa-solid fa-plus "></i>&nbsp;&nbsp;&nbsp;New Post</button>
     </div>
@@ -15,6 +15,7 @@
           <th scope="col">Name</th>
           <th scope="col">Username</th>
           <th scope="col">Email</th>
+          <th scope="col">Comapany</th>
           <!-- <th scope="col">View</th>
           <th scope="col">Edit</th>
           <th scope="col">Delete</th> -->
@@ -26,6 +27,7 @@
           <td>{{user.name}}</td>
           <td>{{user.username}}</td>
           <td>{{user.email}}</td>
+          <td (mouseenter)="companyHoverd(user.company)" class="tool-tip">{{user.company?.name}}</td>
           <!-- <td  data-toggle="modal" data-target="#exampleModal" class="text-center"><i
               class="fa-solid fa-eye text-success "></i></td>
           <td  data-toggle="modal" data-target="#updateuserModal"
@@ -34,9 +36,7 @@
           </td>
           <td  class="text-center"><i class="fa-solid fa-trash text-danger"></i></td> -->
         </tr>
-  
       </tbody>
     </table>
-  
   </div>
   
