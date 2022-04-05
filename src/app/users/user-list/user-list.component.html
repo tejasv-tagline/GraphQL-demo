@@ -1,90 +1,38 @@
 <div class="container mt-4">
-  <h3 class="text-center">GraphQL Demo </h3>
-  <div class="text-center">
-    <button class="btn btn-primary w-100 mt-2 custom-button" data-toggle="modal" data-target="#newPostModal"
-      (click)="show()">New Post</button>
-  </div>
-
-  <table class="table table-hover mt-5">
-    <thead>
-      <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Title</th>
-        <th scope="col">Body</th>
-        <th scope="col">View</th>
-        <th scope="col">Edit</th>
-        <th scope="col">Delete</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let post of allPosts">
-        <th scope="row">{{post.id}}</th>
-        <td>{{post.title}}</td>
-        <td>{{post.body}}</td>
-        <td (click)="viewSinglePost(post.id)" data-toggle="modal" data-target="#exampleModal" class="text-center"><i
-            class="fa-solid fa-eye text-success "></i></td>
-        <td (click)="viewSinglePost(post.id,true)" data-toggle="modal" data-target="#newPostModal" class="text-center"><i
-            class=" fa-solid fa-pencil text-warning"></i></td>
-        <td (click)="deletePost(post.id)" class="text-center"><i class="fa-solid fa-trash text-danger"></i></td>
-      </tr>
-
-    </tbody>
-  </table>
-
-</div>
-
-
-<!-- Modal -->
-<div class="modal fade" id="newPostModal" tabindex="-1" role="dialog" aria-labelledby="newPostModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="newPostModalLabel"> {{modalTitle?modalTitle:'Create new post'}}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form [formGroup]="myForm">
-          <input type="text" formControlName="title" class="form-control m-2" placeholder="Enter post title"
-            value="{{title?title:null}}">
-          <input type="text" formControlName="body" class="form-control m-2" placeholder="Enter post body"
-            value="{{body?body:null}}">
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary" data-dismiss="modal" (click)="onSubmit()">Create New Post</button>
-      </div>
+    <h3 class="text-center">GraphQL Demo </h3>
+    <div class="d-flex justify-content-between">
+      <input type="text" placeholder="Search by title.." class="form-control w-50" #searchKeyword>
+      <button class="btn btn-primary custom-button w-25" data-toggle="modal" data-target="#newPostModal"
+        ><i class="fa-solid fa-plus text-white"></i>&nbsp;&nbsp;&nbsp;New Post</button>
     </div>
+  
+    <table class="table table-hover mt-5">
+      <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Title</th>
+          <th scope="col">Body</th>
+          <th scope="col">View</th>
+          <th scope="col">Edit</th>
+          <th scope="col">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of userList">
+          <th scope="row">{{user.id}}</th>
+          <td>{{user.title}}</td>
+          <td>{{user.body}}</td>
+          <td  data-toggle="modal" data-target="#exampleModal" class="text-center"><i
+              class="fa-solid fa-eye text-success "></i></td>
+          <td  data-toggle="modal" data-target="#updateuserModal"
+            class="text-center">
+            <i class=" fa-solid fa-pencil text-warning"></i>
+          </td>
+          <td  class="text-center"><i class="fa-solid fa-trash text-danger"></i></td>
+        </tr>
+  
+      </tbody>
+    </table>
+  
   </div>
-</div>
-
-
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Post Details</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        Id: {{singlePost?.id}} <br>
-        <hr>
-        Title : {{singlePost?.title}} <br>
-        <hr>
-        Body : {{singlePost?.body}}
-        <hr>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
+  
