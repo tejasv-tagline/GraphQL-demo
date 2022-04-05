@@ -16,6 +16,7 @@ import { UserService } from '../services/user.service';
 export class PostsComponent implements OnInit {
 
   public allPosts: any;
+  public pageNo: number = 1;
   public singlePost: any;
   public newPost = gql`
     mutation ($input:newPostValue!){

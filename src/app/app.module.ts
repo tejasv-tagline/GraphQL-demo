@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 const uri = 'https://graphqlzero.almansi.me/api';
 export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
@@ -29,7 +30,8 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    NgxPaginationModule
   ],
   providers: [
     {
