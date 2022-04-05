@@ -12,6 +12,17 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class UserListComponent implements OnInit {
 
+  public singleUserQuery = gql`
+  query Query($userId: ID!) {
+    user(id: $userId) {
+      id
+      name
+      username
+      email
+    }
+  }
+  `
+
   public usersQuery = gql`
   query Posts {
     users {
@@ -68,6 +79,11 @@ export class UserListComponent implements OnInit {
     }
   }
   `
+  public deleteMutation = gql`
+  mutation Mutation($deleteUserId: ID!) {
+    deleteUser(id: $deleteUserId)
+  }
+  `
   public updatableUser: any;
   public myForm!: FormGroup;
   public updateForm!: FormGroup;
@@ -80,6 +96,7 @@ export class UserListComponent implements OnInit {
   @ViewChild('updateUserName') updateUserName!: ElementRef;
   @ViewChild('updateName') updateName!: ElementRef;
   @ViewChild('updateEmail') updateEmail!: ElementRef;
+  singleUserData: any;
 
 
 
@@ -125,6 +142,18 @@ export class UserListComponent implements OnInit {
     })
   }
 
+  public viewUser(userId:string):void{
+    this.apollo.watchQuery({
+      query:this.singleUserQuery,
+      variables:{
+          userId: userId
+      }
+    }).valueChanges.subscribe((res:any)=>{
+      this.singleUserData=res.data.user
+      console.log('res :>> ', res);
+    })
+  }
+  
   public getAllUsers(): void {
     this.apollo.watchQuery({
       query: this.usersQuery
@@ -160,12 +189,12 @@ export class UserListComponent implements OnInit {
 
   public updateUser(id: any, update?: boolean): void {
     this.updatableUser = this.userList.find((user: any) => user.id == id);
-    this.userId = this.updatableUser.id;
 
+    this.userId=this.updatableUser.id;
     this.updateForm = this.fb.group({
-      name: this.updatableUser.name,
-      username: this.updatableUser.username,
-      email: this.updatableUser.email
+      name: this.updatableUser?.name,
+      username: this.updatableUser?.username,
+      email: this.updatableUser?.email
     })
     console.log('this.updateForm.value :>> ', this.updateForm.value);
 
@@ -177,9 +206,9 @@ export class UserListComponent implements OnInit {
       mutation: this.updateUserMutation,
       variables: {
         input: {
-          name: this.updateForm.value.name ,
+          name: this.updateForm.value.name,
           username: this.updateForm.value.username,
-          email: this.updateForm.value.email 
+          email: this.updateForm.value.email
         },
         updateUserId: id
       }
@@ -188,9 +217,23 @@ export class UserListComponent implements OnInit {
         console.log('res :>> ', res.data.updateUser);
         this.toaster.success("Please check console for more details", "User Updated Successfully");
       } else {
-        this.toaster.error("Please try after sometimes...")
+        this.toaster.error("Please try after sometimes...");
       }
     })
   }
 
+  public deleteUser(userId: any): void {
+    this.apollo.mutate({
+      mutation: this.deleteMutation,
+      variables: {
+        deleteUserId: userId
+      }
+    }).subscribe((res) => {
+      if (res) {
+        this.toaster.success("Please check console for more details", "User deleted Successfully");
+      } else {
+        this.toaster.error("Please try after sometimes...");
+      }
+    })
+  }
 }

@@ -17,10 +17,10 @@
                 <th scope="col">Name</th>
                 <th scope="col">Username</th>
                 <th scope="col">Email</th>
+                <th scope="col">View</th>
                 <th scope="col">Edit</th>
                 <th scope="col">Delete</th>
                 <th scope="col">Comapany</th>
-                <!-- <th scope="col">View</th> -->
             </tr>
         </thead>
         <tbody>
@@ -29,20 +29,45 @@
                 <td>{{user.name}}</td>
                 <td>{{user.username}}</td>
                 <td>{{user.email}}</td>
+                <td  data-toggle="modal" data-target="#exampleModal" class="text-center" (click)="viewUser(user.id)"><i
+              class="fa-solid fa-eye text-success "></i></td>
                 <td data-toggle="modal" data-target="#updateuserModal" (click)="updateUser(user.id)">
                     <i class=" fa-solid fa-pencil text-warning text-center"></i>
                 </td>
+                <td  (click)="deleteUser(user.id)"><i class="fa-solid fa-trash text-danger"></i></td>
                 <td (mouseenter)="companyHoverd(user.company)" class="tool-tip">{{user.company?.name}}</td>
-                <td class="text-center"><i class="fa-solid fa-trash text-danger"></i></td>
-                <!-- <td  data-toggle="modal" data-target="#exampleModal" class="text-center"><i
-              class="fa-solid fa-eye text-success "></i></td>-->
             </tr>
         </tbody>
     </table>
 </div>
 
 
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Post Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Id: {{singleUserData?.id}} <br>
+        <hr>
+        Name : {{singleUserData?.name}} <br>
+        <hr>
+        Username : {{singleUserData?.username}}
+        <hr>
+        Email : {{singleUserData?.email}}
 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="newUserModal" tabindex="-1" role="dialog" aria-labelledby="newUserModalLabel"
@@ -87,11 +112,11 @@
             <div class="modal-body">
                 <form [formGroup]="updateForm">
                     <input type="text" formControlName="name" class="form-control m-2" placeholder="Enter Name"
-                        #updateName value="{{updatableUser?.name}}">
+                        #updateName value="{{singleUserData?.name}}">
                     <input type="text" formControlName="username" class="form-control m-2" placeholder="Enter User Name"
-                        #updateUserName value="{{updatableUser?.username}}">
+                        #updateUserName value="{{singleUserData?.username}}">
                     <input type="text" formControlName="email" class="form-control m-2" placeholder="Enter Email"
-                        #updateEmail value="{{updatableUser?.email}}">
+                        #updateEmail value="{{singleUserData?.email}}">
                 </form>
             </div>
             <div class="modal-footer">
